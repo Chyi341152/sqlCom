@@ -1,0 +1,85 @@
+1. How to Use Python Packages
+    Python packages allow you to break down large systems and organize their modules in a consistent way that you and other people can use and reuse efficiently
+
+    What Are Packages?
+        Moduels are the source files with *.py
+        Packages are the manifestation of Python's hgierarchical namespaces concept.
+        The packages will be installed typically into the Python interpreter's site-packages directory
+
+    Exploring the Standard Library
+    PyPI - the Python Package Index.
+        PyPI hosts all publicly available packages and provides a one-stop shop for browsing through them.
+
+    There are two ways to install packages from PyPI.
+        1. download the package and then run
+            $ python3 setup.py install
+        2. use pip, setuptools, wheel
+            $ pip install -U pip setuptools
+            $ python3 -m pip install -U pip setuptools
+
+
+2. Python Packaging User Guide
+    2.1 Ensure you can run Python from the command line
+        $ python3 --version
+    2.2 Ensure you can run pip from the command line
+        $ pip --version
+    2.3 Ensure pip, setuptools,and wheel are up to date
+        -- While pip alone is sufficient to install from pre-built binary archives, setuptools and wheel projects to ensure you can also install from source archives
+        $ python3 -m pip install --upgrade pip setuptools wheel
+    2.4 Creating Virtual Environments
+        $ python3 -m venv tutorial_env # Optionally, create a virtual environment
+        $ source tutorial_env/bin/activate
+    2.5 Installing From PyPI
+        $ pip install 'SomeProject'
+        $ pip install 'SomeProject==1.4'
+        $ pip install 'SomeProject>=1,<2' # To install greater than or equal to one version and less than another
+        $ pip install 'SomeProject~=1.4.2' # To install a version that's "compatible" with a certain version
+    2.6 Source Distributions vs Wheels
+        pip can install from either "Source Distributions(sdist)" or Wheel, but if both are present on PyPI, pip will prefer a compatible wheel
+        Wheels are a pre-built distribution format that provides faster installation compared to Source Distributions (sdist),
+        $ pip install --upgrade SomeProject # Upgrading packages
+        $ pip install --user SomeProject # Installing to the User Site
+        $ pip install -r requirements.txt # Install a list of requirements specified in a Requirements File
+    2.7 Installing from VCS
+        pip install -e git+https://git.repo/some_pkg.git#egg=SomeProject          # from git
+        pip install -e hg+https://hg.repo/some_pkg#egg=SomeProject                # from mercurial
+        pip install -e svn+svn://svn.repo/some_pkg/trunk/#egg=SomeProject         # from svn
+        pip install -e git+https://git.repo/some_pkg.git@feature#egg=SomeProject  # from a branch
+
+
+
+3. Packaging and distributing projects
+    -- How to configure, apckage and distribute your own Python projects.
+    $ pip install twine # upload your project distributions to PyPI
+
+    [setup.py]
+        setup.py which exists at the root of your project directory. For Example [https://github.com/pypa/sampleproject]
+            1. it's the file where various aspects of your project are configured. global setup() function
+            2. To get a listing of available commands, run Python setup.py --help-commands
+    [setup.cfg]
+        setup.cfg is an ini file that contains option defaults for setup.py commands.
+    [README.rst/README.md]
+        All project should contain a readme file that covers the goal of the project.
+    [MANIFEST.in]
+        when you need to package additional files that are not automatically included in a source distribution
+    [LICENSE.txt]
+        Every package should include a license file detailing the terms of distribution.
+    [your package]
+        Although it's not required, the common practice is to include your Python modules and packages under a single top-level package that has the same name as your projects.
+
+
+4. Packaging your project
+    To have your project installable from a Package Index like PyPI, you'll need to create a Distribution (aka "Package") for your project
+    $ python3 setup.py sdist # create a Source Distribution
+    A "source distribution" is unbuilt, and requires a build step when installed by pip. Even if the distribution is pure Python, it still involves a build step to build out the installation metadadta from setup.py
+
+    Wheels is a built package that can be installed without needing to go through the "build" process.
+    $ pip install wheel # install the wheel package
+    $ python3 setup.py bdist_wheel --universal #  Universal Wheels are wheels that are pure Python and support Python 2 and 3. This is a wheel can be installed anywhere by pip
+
+5. Uploading Your Project to PyPI
+    When you ran the command to create your distribution, a new directory dist/ was created under your project's root directory. That's where you'll find your distribution files to upload
+
+    Create an account:
+        PyPI
+        # If you want to avoid entering your username and password when uploading, you can create a $HOME/.pypirc file with your username and password

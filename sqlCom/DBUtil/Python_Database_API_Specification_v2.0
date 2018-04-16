@@ -1,0 +1,67 @@
+PEP 249 -- Python Database API Specification v2.0
+
+    Module Interface
+
+        Constructors: 构造函数
+
+            connect(parameters...)
+                -- Constructor for creating a connection to the database,
+                return: a Connection Object. It takes a number of parameters which are database dependent.
+
+        Globals:
+
+            apilevel
+                -- String constant stating the supported DB API level
+                -- Currently only the strings"1.0" and "2.0" are allowed. If not given, a DB-API 1.0 level interface should be assumed.
+
+            threadsafety
+                -- Integer constant stating the level of thread safety the interface supports
+
+                    threadsafety    | Meaning
+                    0               | Threads may not share the module
+                    1               | Threads may share the module, but not connections
+                    2               | Threads may share the module and connections
+                    3               | Threads may share the module, connections and cursors
+
+            paramstyle
+                -- String constant stating the type of parameter marker formatting expected by the interface.
+
+                    paramstyle      | Meaning
+                    qmark           | Question mark style, e.g...WHERE name=?
+                    numeric         | Numeric, positional style,e.g... WHERE name=:1
+                    named           | Named style,e.g... WHERE name=:name
+                    format          | ANSI C printf format codes, e.g... WHERE name=%s
+                    pyformat        | Python extended format codes,e.g... WHERE name=%(name)s
+
+        Exceptions:
+
+            Warning
+                -- Exception raised for important warnings like data truncations while inserting,etc.It must be a subclass of the Python StandardError (defined in the modulle exception)
+
+            Error
+                -- Exception that is the base class of all other exceptions
+
+            InterfaceError
+                -- Exception raised for errors that are related to the database interface rather than the database itself. It must be a subclass of Error
+
+            DatabaseError
+                -- Exception raised for errors that are related to the database. It must be a subclass of Error
+
+            DataError
+                -- Exception raised for errors that are due to problems with the pricessed data like division by zero.numeric value out of range.
+
+            OperationalError
+                -- Exception raised for errors that are related to the database's operation and not necessarily under the control of the programmer,e.g.an unexpected disconnect occurs, the data source name is not found, a transaction could not be processed, a memory allocation error occurred during processing,
+
+            IntegrityError
+                -- Exception raised when the relational integrity of the database is affected.
+
+            InternalError
+                -- Exception raised when the database encounters an internal error.
+
+            ProgrammingError
+                -- Exception raised for programming errors.
+
+            NotSupportedError
+                -- Exception raised in case a method or database API was used which is not supported by the database,
+
